@@ -26,10 +26,11 @@ def get_all_links(html):
     return links
 
 
-def get_hist_values(html, url):
+def get_hist_values(html):
     """Собираем данные о конретной криповалюте в разделе history data"""
     soup = BeautifulSoup(html, "lxml")
     div = soup.find("div", class_="sc-16r8icm-0 jKrmxw container")
+    # Дальше не получается
     print(div.prettify())
 
 
@@ -37,7 +38,7 @@ def main():
     """Главная функция вызывающая все остальные"""
     all_links = get_all_links(get_html(URL))
     for l in all_links:
-        get_hist_values(get_html(l), l)
+        get_hist_values(get_html(l))
 
 
 if __name__ == "__main__":
