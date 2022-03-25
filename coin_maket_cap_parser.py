@@ -2,13 +2,17 @@ import requests
 from bs4 import BeautifulSoup
 from time import sleep
 import lxml
+from save_html import save_html
 
 URL = "https://coinmarketcap.com"
-
+HEADERS = {
+    "accept": "application/json, text/plain, */*",
+    "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.82 Safari/537.36"
+}
 
 def get_html(url):
     """Получаем html страницу"""
-    r = requests.get(url)
+    r = requests.get(url, headers=HEADERS)
     return r.text
 
 
@@ -17,10 +21,10 @@ def get_all_links(html):
     soup = BeautifulSoup(html, "lxml")
 
     table = soup.find("table", class_="czTsgW")
-    divs = table.find_all("div", class_="sc-16r8icm-0 escjiH")
+    trs = table.find("tbody").find_all("tr", limit=20)
     links = []
-    for d in divs:
-        a = d.find("a").get("href")
+    for tr in trs:
+        a = tr.find("a").get("href")
         a = URL + a + "historical-data/"
         links.append(a)
     return links
@@ -35,7 +39,9 @@ def main():
     """Главная функция вызывающая все остальные"""
     all_links = get_all_links(get_html(URL))
     for url in all_links:
-        get_hist_values(get_html(url))
+        my_html = get_html(url)
+        get_hist_values(my_html)
+        save_html(my_html, url)
 
 
 if __name__ == "__main__":
