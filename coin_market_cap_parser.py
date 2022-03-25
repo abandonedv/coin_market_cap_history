@@ -63,11 +63,6 @@ def get_all_links(html):
     return links
 
 
-def get_hist_values(html):
-    """Собираем данные о конретной криповалюте в разделе history data"""
-    pass
-
-
 def main():
     """Главная функция вызывающая все остальные"""
     all_links = get_all_links(get_html(URL))
