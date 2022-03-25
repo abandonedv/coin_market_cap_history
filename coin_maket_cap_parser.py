@@ -41,7 +41,7 @@ def main():
     for url in all_links:
         my_html = get_html(url)
         get_hist_values(my_html)
-        save_html(my_html, url)
+        # save_html(my_html, url)
 
 
 if __name__ == "__main__":
