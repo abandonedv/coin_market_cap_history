@@ -2,8 +2,9 @@ import pprint
 import json
 import os
 import write_into_csv
+import my_dbase
 
-PATH = "/home/ludwig/Documents/GitHub/test_parsing/saved_json"
+PATH = "saved_json"
 
 
 class Date_data():
@@ -16,7 +17,7 @@ class Date_data():
 
 def get_js_from_file(file):
     """Извлекаем json объект из json файла"""
-    with open("saved_json/" + file, 'r') as f:
+    with open(PATH + "/" + file, 'r') as f:
         js = json.load(f)
         return js
 
@@ -40,7 +41,7 @@ def main():
         js = get_js_from_file(file)
         l = get_all_data(js)
         write_into_csv.insert(l)
-        # db.insert...
+        # my_dbase.insert_list(l)
 
 
 if __name__ == "__main__":
