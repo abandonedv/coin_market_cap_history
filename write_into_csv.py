@@ -3,6 +3,7 @@ import datetime
 
 
 def create():
+    """Создаем csv файл"""
     c1 = "coin_parse"
     c2 = "coin_time"
     c3 = "coin_value"
@@ -13,6 +14,7 @@ def create():
 
 
 def insert(list_of_dates):
+    """Добавляем новые строки в csv файл"""
     update_time = str(datetime.datetime.now())[:10]
     for date in list_of_dates:
         with open(f"history.csv", "a", encoding="utf-8") as f:

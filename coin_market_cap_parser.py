@@ -39,7 +39,7 @@ def get_jsons(d):
         parameters = {
             "id": id,
             "convertId": 2781,
-            "timeStart": 1500000000,
+            "timeStart": 150000000,
             "timeEnd": 1648166400
         }
         js = requests.get(URL_HIST, params=parameters).json()

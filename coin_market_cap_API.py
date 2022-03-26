@@ -33,6 +33,7 @@ def price_of_crypt(crypto, currency):
 
 
 def get_id_of_coin(crypto, currency):
+    """функция возвращающая id любой криптовалюты"""
     try:
         crypto = crypto.lower()
         currency = currency.upper()

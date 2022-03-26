@@ -6,7 +6,8 @@ import write_into_csv
 PATH = "/home/ludwig/Documents/GitHub/test_parsing/saved_json"
 
 
-class hist_data():
+class Date_data():
+    """Класc для удобного представления необходимых мне данных"""
     def __init__(self, name, day_data):
         self.coin_parse = name
         self.coin_time = day_data["timeClose"][:10]
@@ -14,22 +15,25 @@ class hist_data():
 
 
 def get_js_from_file(file):
+    """Извлекаем json объект из json файла"""
     with open("saved_json/" + file, 'r') as f:
         js = json.load(f)
         return js
 
 
 def get_all_data(json):
+    """Создаем список объектов date_data"""
     history_of_coin = []
     list_of_quotes = json["data"]["quotes"]
     name_of_coin = json["data"]["name"]
     for day_data in list_of_quotes:
         # pprint.pprint(day_data)
-        history_of_coin.append(hist_data(name_of_coin, day_data))
+        history_of_coin.append(Date_data(name_of_coin, day_data))
     return history_of_coin
 
 
 def main():
+    """Главная функция вызывающая все остальные"""
     files = os.listdir(PATH)
     write_into_csv.create()
     for file in files:
