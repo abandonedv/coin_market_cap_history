@@ -1,7 +1,6 @@
 import pprint
 import json
 import os
-import csv
 import write_into_csv
 
 PATH = "/home/ludwig/Documents/GitHub/test_parsing/saved_json"
