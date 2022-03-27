@@ -19,11 +19,12 @@ def save_json_per_day(js, name):
         json.dump(js, f, indent=4, ensure_ascii=False)
     print(f"Файл {name}-{date}.json готов!")
 
+
 def save_json_per_hour(js, name, dt):
     """Сохраняем json объект в json файл"""
     if js["data"]["points"]:
         d = ctime(dt)
         date = d[-4:] + "-" + d[4:7] + "-" + (d[8:10]).split(" ")[-1]
-        with open(f"jsons_per_hour/{name}-{date}.json", "w+", encoding="utf-8") as f:
+        with open(f"test/{name}-{date}.json", "w+", encoding="utf-8") as f:
             json.dump(js, f, indent=4, ensure_ascii=False)
         print(f"Файл {name}-{date}.json готов!")

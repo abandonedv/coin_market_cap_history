@@ -1,13 +1,13 @@
 import pprint
 import time
 from time import sleep
-
+import math
 import lxml
 import requests
 from bs4 import BeautifulSoup
 
 from coin_market_cap_API import price_of_crypt, get_id_of_coin
-from save_response import save_html, save_json, save_json_per_hour
+from save_response import save_html, save_json_per_day, save_json_per_hour
 
 COINS = []
 URL = "https://coinmarketcap.com"
@@ -40,12 +40,6 @@ IDS = {'1': 'bitcoin',
        '4943': 'multi-collateral-dai',
        '2': 'litecoin'}
 
-END_OF_TIME = 1609448399
-# 1514754000 - 01.01.2018
-# 1577826000 = 01.01.2020
-# 1609448400 - 01.01.2021
-# 1640984400 - 01.01.2022
-
 
 def get_html(url):
     """Получаем html страницу"""
@@ -53,36 +47,41 @@ def get_html(url):
     return r.text
 
 
-def fill_list_of_ids_of_coins():
+def fill_list_of_ids_of_coins(coins):
     """Создаем словарь,где ключ (id) это id криптовалюты на CMC, а значение - имя валюты"""
     coin_and_name_dict = {}
-    for coin in COINS:
+    for coin in coins:
         id = get_id_of_coin(coin, "USD")
         coin_and_name_dict[id] = coin
     return coin_and_name_dict
 
 
-def get_jsons_per_day(d):
+def get_jsons_per_day(ids_and_names):
     """Получаем json объекты где хранится история"""
-    for id in d:
+    for id in ids_and_names:
         parameters = {
             "id": id,
             "convertId": 2781,
-            "timeStart": 1500000000,
-            "timeEnd": 1648166400
+            "timeStart": 1514754000,
+            "timeEnd": math.floor(time.time() - 1000)
         }
         js = requests.get(URL_HIST, params=parameters).json()
         # pprint.pprint(js)
-        save_json(js, d[id])
+        save_json_per_day(js, ids_and_names[id])
 
-def get_jsons_per_hour(d):
+
+def get_jsons_per_hour(ids_and_names):
     """Получаем json объекты где хранится история"""
+    end_of_time = 1640984400
+    # 1514754000 - 01.01.2018
+    # 1577826000 = 01.01.2020
+    # 1609448400 - 01.01.2021
+    # 1640984400 - 01.01.2022
     time_start = 1577826000
-    time_end = time_start + 86399
-    for id in d:
+    for id in ids_and_names:
         t_s = time_start
-        t_e = time_end
-        while t_e <= END_OF_TIME:
+        t_e = time_start + 86399
+        while t_e <= end_of_time:
             print("*************************")
             print(time.ctime(t_s))
             my_range = str(t_s) + "~" + str(t_e)
@@ -92,33 +91,28 @@ def get_jsons_per_hour(d):
             }
             js = requests.get(URL_HIST_PER_HOUR, params=parameters).json()
             # pprint.pprint(js)
-            save_json_per_hour(js, d[id], t_s)
+            save_json_per_hour(js, ids_and_names[id], t_s)
             t_s = t_e + 1
             t_e = t_s + 86399
+
 
 def get_all_links(html):
     """Получаем ссылки на все криптовалюты с главной страницы и собираем в список"""
     soup = BeautifulSoup(html, "lxml")
-
     table = soup.find("table", class_="czTsgW")
     trs = table.find("tbody").find_all("tr", limit=20)
-    links = []
+    names_of_coins = []
     for tr in trs:
         a = tr.find("a").get("href")
         coin = a.split("/")[-2]
-        COINS.append(coin)
-        a = URL + a + "historical-data/"
-        links.append(a)
-    return links
+        names_of_coins.append(coin)
+    return names_of_coins
 
 
 def main():
     """Главная функция вызывающая все остальные"""
-    # all_links = get_all_links(get_html(URL))
-    # for url in all_links:
-    #     my_html = get_html(url)
-        # save_html(my_html, url)
-    # d = fill_list_of_ids_of_coins()
+    # coins = get_all_links(get_html(URL))
+    # ids_and_names = fill_list_of_ids_of_coins(coins)
     get_jsons_per_hour(IDS)
 
 
