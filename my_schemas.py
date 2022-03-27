@@ -4,7 +4,7 @@ from sqlalchemy.ext.declarative import declarative_base
 base = declarative_base()
 
 
-class Dates(base):
+class Date(base):
     __tablename__ = 'coin_warehouse'
     id = Column(Integer, primary_key=True, autoincrement=True)
     coin_parse = Column(String)

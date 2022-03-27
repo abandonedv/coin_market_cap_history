@@ -41,7 +41,7 @@ def main():
         js = get_js_from_file(file)
         l = get_all_data(js)
         write_into_csv.insert(l)
-        # my_dbase.insert_list(l)
+        my_dbase.insert_list(l)
 
 
 if __name__ == "__main__":
