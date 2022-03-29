@@ -5,7 +5,7 @@ base = declarative_base()
 
 
 class Date(base):
-    __tablename__ = 'coin_warehouse'
+    __tablename__ = 'coin_warehouse2'
     id = Column(Integer, primary_key=True, autoincrement=True)
     coin_parse = Column(String)
     coin_time = Column(String)

@@ -3,7 +3,7 @@ import json
 import os
 import time
 
-import write_into_csv
+import write_into_coin_csv
 import my_dbase
 
 PATH_OF_PER_DAY = "saved_json_per_day"
@@ -70,7 +70,7 @@ def main():
     for file in files:
         js, name_of_coin = get_js_from_file(file)
         list_of_dates = get_all_data_per_hour(js, name_of_coin)
-        write_into_csv.insert(list_of_dates)
+        write_into_coin_csv.insert(list_of_dates)
         print(f"Файл {file} обработан!")
         # my_dbase.insert_list(list_of_dates)
 

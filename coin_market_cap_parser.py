@@ -19,6 +19,18 @@ HEADERS = {
     "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.82 Safari/537.36"
 }
 
+# 1514754000 - 01.01.2018
+# 1546290000 - 01.01.2019
+# 1577826000 - 01.01.2020
+# 1609448400 - 01.01.2021
+# 1640984400 - 01.01.2022
+
+TIME_01_01_2018 = 1514754000
+TIME_01_01_2019 = 1546290000
+TIME_01_01_2020 = 1577826000
+TIME_01_01_2021 = 1609448400
+TIME_01_01_2022 = 1640984400
+
 IDS = {'1': 'bitcoin',
        '1027': 'ethereum',
        '825': 'tether',
@@ -62,8 +74,8 @@ def get_jsons_per_day(ids_and_names):
         parameters = {
             "id": id,
             "convertId": 2781,
-            "timeStart": 1514754000,
-            "timeEnd": math.floor(time.time() - 1000)
+            "timeStart": TIME_01_01_2019,
+            "timeEnd": TIME_01_01_2020 - 1
         }
         js = requests.get(URL_HIST, params=parameters).json()
         # pprint.pprint(js)
@@ -72,12 +84,8 @@ def get_jsons_per_day(ids_and_names):
 
 def get_jsons_per_hour(ids_and_names):
     """Получаем json объекты где хранится история"""
-    end_of_time = 1640984400
-    # 1514754000 - 01.01.2018
-    # 1577826000 = 01.01.2020
-    # 1609448400 - 01.01.2021
-    # 1640984400 - 01.01.2022
-    time_start = 1577826000
+    end_of_time = TIME_01_01_2020 - 1
+    time_start = TIME_01_01_2019
     for id in ids_and_names:
         t_s = time_start
         t_e = time_start + 86399
@@ -113,7 +121,7 @@ def main():
     """Главная функция вызывающая все остальные"""
     # coins = get_all_links(get_html(URL))
     # ids_and_names = fill_list_of_ids_of_coins(coins)
-    get_jsons_per_hour(IDS)
+    get_jsons_per_day(IDS)
 
 
 if __name__ == "__main__":

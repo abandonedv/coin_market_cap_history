@@ -16,7 +16,7 @@ session = Session()
 base.metadata.create_all(db)
 
 
-def insert_list(datas):
+def insert_coin_list(datas):
     """Вставляем список"""
     update_time = str(datetime.datetime.now())[:10]
     for date in datas:
@@ -28,7 +28,7 @@ def insert_list(datas):
     session.commit()
 
 
-def insert_one(date):
+def insert_one_coin(date):
     """Вставляем один элемент"""
     update_time = str(datetime.datetime.now())[:10]
     c = Date(coin_parse=date.coin_parse,
@@ -40,7 +40,7 @@ def insert_one(date):
 
 
 def my_len():
-    "Узнать число элементов"
+    """Узнать число элементов"""
     return session.query(Date).order_by(Date.id.desc()).first().id
 
 print(my_len())
