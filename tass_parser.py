@@ -41,9 +41,6 @@ def get_json():
         print("* " + str(parametrs_time))
 
 
-
-
-
 def main():
     get_json()
 
