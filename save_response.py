@@ -3,15 +3,8 @@ import json
 import time
 from time import ctime
 
+from time_data import time_data
 
-def file_data(tm):
-    year = tm[-4:]
-    month = tm[4:7]
-    date = tm[8:10].split(" ")[-1]
-    time_list = tm[11:19].split(":")
-    my_time = time_list[0] + "-" + time_list[1] + "-" + time_list[2]
-    dt = year + "-" + month + "-" + date + "-" + my_time
-    return dt
 
 
 def save_html(my_html, url):
@@ -43,8 +36,8 @@ def save_json_per_hour(js, name, dt):
 
 def save_json_tass(js, start, end):
     """Сохраняем json объект в json файл"""
-    s_date = file_data(time.ctime(start))
-    e_date = file_data(time.ctime(end))
+    s_date = time_data(time.ctime(start))
+    e_date = time_data(time.ctime(end))
     with open(f"saved_json_tass/news_list_{s_date}~{e_date}.json", "w+", encoding="utf-8") as f:
         json.dump(js, f, indent=4, ensure_ascii=False)
         print(f"Файл news_list_{s_date}~{e_date}.json готов!")

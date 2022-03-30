@@ -57,4 +57,6 @@ def my_len():
     return session.query(News).order_by(News.id.desc()).first().id
 
 
-print(my_len())
+def get_all_by_time():
+    """Получить все элементы БД отсортированные по времени"""
+    return session.query(News).order_by(News.news_time).all()

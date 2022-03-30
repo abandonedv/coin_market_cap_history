@@ -5,14 +5,14 @@ import time
 
 import write_into_news_csv
 import my_dbase
+from time_data import time_data
 
 PATH_OF_NEWS = "saved_json_tass"
-
 
 class News_data:
     def __init__(self, news):
         self.news_parse = news[0]["slug"]
-        self.news_time = time.ctime(news[0]["publishDate"])
+        self.news_time = time_data(time.ctime(news[0]["publishDate"]))
         self.news_title = news[0]["title"]
         self.__news_lead = "None"
 
