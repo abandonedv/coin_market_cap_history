@@ -1,13 +1,10 @@
-import pprint
 import time
-from time import sleep
-import math
-import lxml
+
 import requests
 from bs4 import BeautifulSoup
 
-from coin_market_cap_API import price_of_crypt, get_id_of_coin
-from save_response import save_html, save_json_per_day, save_json_per_hour
+from coin_market_cap_API import get_id_of_coin
+from save_response import save_json_per_day, save_json_per_hour
 
 COINS = []
 URL = "https://coinmarketcap.com"
