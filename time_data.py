@@ -26,6 +26,8 @@ def time_data(tm):
     elif month == "Dec":
         month = "12"
     date = tm[8:10].split(" ")[-1]
+    if len(date) == 1:
+        date = "0" + date
     time_list = tm[11:19].split(":")
     my_time = time_list[0] + "-" + time_list[1] + "-" + time_list[2]
     dt = year + "-" + month + "-" + date + "-" + my_time

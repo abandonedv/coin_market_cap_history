@@ -2,6 +2,7 @@ import pprint
 import json
 import os
 import time
+from time_data import time_data
 
 import write_into_coin_csv
 import my_dbase
@@ -51,7 +52,7 @@ def get_all_data_per_hour(my_json, name_of_coin):
             last_time = my_t
             # pprint.pprint(day_data)
             history_of_coin.append(Date_data(name_of_coin,
-                                             time.ctime(my_t),
+                                             time_data(time.ctime(my_t)),
                                              list_of_points[my_time]["v"][0]))
     return history_of_coin
 
@@ -59,13 +60,13 @@ def get_all_data_per_hour(my_json, name_of_coin):
 def main():
     """Главная функция вызывающая все остальные"""
     files = os.listdir(PATH_OF_PER_HOUR)
-    write_into_coin_csv.create()
+    # write_into_coin_csv.create()
     for file in files:
         my_json, name_of_coin = get_js_from_file(file)
         list_of_dates = get_all_data_per_hour(my_json, name_of_coin)
-        write_into_coin_csv.insert(list_of_dates)
+        # write_into_coin_csv.insert(list_of_dates)
         print(f"Файл {file} обработан!")
-        # my_dbase.insert_list(list_of_dates)
+        my_dbase.insert_coin_list(list_of_dates)
 
 
 if __name__ == "__main__":

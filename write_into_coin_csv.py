@@ -15,7 +15,7 @@ def create():
 
 def insert(list_of_dates):
     """Добавляем новые строки в csv файл"""
-    update_time = str(datetime.datetime.now())[:10]
+    update_time = str(datetime.datetime.now())
     for date in list_of_dates:
         with open(f"history_of_coins.csv", "a", encoding="utf-8") as f:
             writer = csv.writer(f)
