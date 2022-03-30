@@ -4,6 +4,7 @@ import os
 import time
 
 import write_into_news_csv
+import my_dbase
 
 PATH_OF_NEWS = "saved_json_tass"
 
@@ -50,13 +51,13 @@ def get_all_news(my_json):
 def main():
     """Главная функция вызывающая все остальные"""
     files = os.listdir(PATH_OF_NEWS)
-    write_into_news_csv.create()
+    # write_into_news_csv.create()
     for file in files:
         my_json = get_js_from_file(file)
-        list_of_dates = get_all_news(my_json)
-        write_into_news_csv.insert(list_of_dates)
+        list_of_news = get_all_news(my_json)
+        # write_into_news_csv.insert(list_of_news)
+        my_dbase.insert_news_list(list_of_news)
         print(f"Файл {file} обработан!")
-        # my_dbase.insert_list(list_of_dates)
 
 
 if __name__ == "__main__":

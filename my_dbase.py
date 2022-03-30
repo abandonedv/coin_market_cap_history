@@ -4,7 +4,7 @@ from sqlalchemy import create_engine, select, desc
 from sqlalchemy.orm import sessionmaker
 
 from config import user, password, host, db_name
-from my_schemas import base, Date
+from my_schemas import base, Date, News
 
 DB_STR = f"postgresql+psycopg2://{user}:{password}@{host}/{db_name}"
 
@@ -39,8 +39,22 @@ def insert_one_coin(date):
     session.commit()
 
 
+def insert_news_list(news_list):
+    """Вставляем список"""
+    update_time = str(datetime.datetime.now())[:10]
+    for news in news_list:
+        c = News(news_parse=news.news_parse,
+                 news_time=news.news_time,
+                 news_title=news.news_title,
+                 news_lead=news.news_lead_p,
+                 update_time=update_time)
+        session.add(c)
+    session.commit()
+
+
 def my_len():
     """Узнать число элементов"""
-    return session.query(Date).order_by(Date.id.desc()).first().id
+    return session.query(News).order_by(News.id.desc()).first().id
+
 
 print(my_len())
