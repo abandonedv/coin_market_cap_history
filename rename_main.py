@@ -7,7 +7,7 @@ files = os.listdir(NAME_OF_DIR)
 
 for old_name in files:
     print(len(files))
-    old_name = os.path.join("/home/ludwig/PycharmProjects/test_rename/saved_json_per_hour", f"{old_name}")
+    old_name = os.path.join(NAME_OF_DIR, f"{old_name}")
     name_of_coin = ""
     time_of_file = []
     for i, x in enumerate(old_name.split("-")):

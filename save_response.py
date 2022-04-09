@@ -1,6 +1,5 @@
 import datetime
 import json
-import time
 from time import ctime
 
 from time_data import time_data
@@ -27,8 +26,7 @@ def save_json_per_day(js, name):
 def save_json_per_hour(js, name, dt):
     """Сохраняем json объект в json файл"""
     if js["data"]["points"]:
-        d = ctime(dt)
-        date = d[-4:] + "-" + d[4:7] + "-" + (d[8:10]).split(" ")[-1]
+        date = time_data(ctime(dt))
         with open(f"saved_json_per_hour/{name}-{date}.json", "w+", encoding="utf-8") as f:
             json.dump(js, f, indent=4, ensure_ascii=False)
         print(f"Файл {name}-{date}.json готов!")
@@ -36,8 +34,8 @@ def save_json_per_hour(js, name, dt):
 
 def save_json_tass(js, start, end):
     """Сохраняем json объект в json файл"""
-    s_date = time_data(time.ctime(start))
-    e_date = time_data(time.ctime(end))
-    with open(f"saved_json_tass/news_list_{s_date}~{e_date}.json", "w+", encoding="utf-8") as f:
+    s_date = time_data(ctime(start))
+    e_date = time_data(ctime(end))
+    with open(f"economica/news_list_{s_date}~{e_date}.json", "w+", encoding="utf-8") as f:
         json.dump(js, f, indent=4, ensure_ascii=False)
         print(f"Файл news_list_{s_date}~{e_date}.json готов!")
