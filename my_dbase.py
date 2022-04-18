@@ -34,6 +34,7 @@ def insert_one_coin(date):
     update_time = str(datetime.datetime.now())
     c = Date(coin_parse=date.coin_parse,
              coin_time=date.coin_time,
+             coin_time_in_sec=date.coin_time_in_sec,
              coin_value=date.coin_value,
              update_time=update_time)
     session.add(c)
@@ -46,6 +47,7 @@ def insert_news_list(news_list):
     for news in news_list:
         c = News(news_parse=news.news_parse,
                  news_time=news.news_time,
+                 news_time_in_sec=news.news_time_in_sec,
                  news_title=news.news_title,
                  news_lead=news.news_lead_p,
                  update_time=update_time)

@@ -19,6 +19,7 @@ class News(base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     news_parse = Column(String)
     news_time = Column(String)
+    news_time_in_sec = Column(Integer)
     news_title = Column(String)
     news_lead = Column(String)
     update_time = Column(String)

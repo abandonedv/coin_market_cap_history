@@ -12,7 +12,8 @@ PATH_OF_NEWS = "saved_json_tass"
 class News_data:
     def __init__(self, news):
         self.news_parse = news[0]["slug"]
-        self.news_time = time_data(time.ctime(news[0]["publishDate"]))
+        self.news_time = time_data(time.ctime(news[0]["publishDate"]), time_need=True)
+        self.news_time_in_sec = news[0]["publishDate"]
         self.news_title = news[0]["title"]
         self.__news_lead = "None"
 
@@ -55,8 +56,8 @@ def main():
     for file in files:
         my_json = get_js_from_file(file)
         list_of_news = get_all_news(my_json)
-        write_into_news_csv.insert(list_of_news)
-        # my_dbase.insert_news_list(list_of_news)
+        # write_into_news_csv.insert(list_of_news)
+        my_dbase.insert_news_list(list_of_news)
         print(f"Файл {file} обработан!")
 
 
