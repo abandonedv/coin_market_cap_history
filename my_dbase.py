@@ -22,6 +22,7 @@ def insert_coin_list(datas):
     for date in datas:
         c = Date(coin_parse=date.coin_parse,
                  coin_time=date.coin_time,
+                 coin_time_in_sec=date.coin_time_in_sec,
                  coin_value=date.coin_value,
                  update_time=update_time)
         session.add(c)
@@ -80,7 +81,3 @@ def get_time_of_last_update_of_coin(coin_name):
 def get_time_of_last_news():
     """Узнать число элементов"""
     return session.query(News).order_by(News.news_time.desc()).first().news_time
-
-
-t = get_time_of_last_news()
-print(t)

@@ -9,6 +9,7 @@ class Date(base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     coin_parse = Column(String)
     coin_time = Column(String)
+    coin_time_in_sec = Column(Integer)
     coin_value = Column(Float)
     update_time = Column(String)
 

@@ -14,17 +14,18 @@ PATH_OF_PER_HOUR = "saved_json_per_hour"
 class Date_data:
     """Класc для удобного представления необходимых мне данных"""
 
-    def __init__(self, name, coin_time, coin_value):
+    def __init__(self, name, coin_time, coin_time_in_sec, coin_value):
         self.coin_parse = name
         self.coin_time = coin_time
+        self.coin_time_in_sec = coin_time_in_sec
         self.coin_value = coin_value
 
 
-def get_js_from_file(file):
+def get_json_from_file(file):
     """Извлекаем json объект из json файла"""
     with open(PATH_OF_PER_HOUR + "/" + file, 'r') as f:
         my_json = json.load(f)
-        name = file.split("-")[0]
+        name = file.split("_")[0]
         return my_json, name
 
 
@@ -52,7 +53,8 @@ def get_all_data_per_hour(my_json, name_of_coin):
             last_time = my_t
             # pprint.pprint(day_data)
             history_of_coin.append(Date_data(name_of_coin,
-                                             time_data(time.ctime(my_t)),
+                                             time_data(time.ctime(my_t), time_need=True),
+                                             my_t,
                                              list_of_points[my_time]["v"][0]))
     return history_of_coin
 
@@ -62,10 +64,10 @@ def main():
     files = os.listdir(PATH_OF_PER_HOUR)
     write_into_coin_csv.create()
     for file in files:
-        my_json, name_of_coin = get_js_from_file(file)
+        my_json, name_of_coin = get_json_from_file(file)
         list_of_dates = get_all_data_per_hour(my_json, name_of_coin)
-        write_into_coin_csv.insert(list_of_dates)
-        # my_dbase.insert_coin_list(list_of_dates)
+        # write_into_coin_csv.insert(list_of_dates)
+        my_dbase.insert_coin_list(list_of_dates)
         print(f"Файл {file} обработан!")
 
 
