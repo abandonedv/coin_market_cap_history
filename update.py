@@ -21,15 +21,15 @@ async def get_json(id, t_s, t_e):
 
 async def find_new(item):
     current_time = math.floor(time.time())
-    t_s = item.coin_time_in_sec
+    t_s = my_dbase.get_time_of_last_update_of_coin(item)
     t_e = t_s + 3600
-    print(t_s)
-    id = get_id_of_coin(item.coin_parse, "USD")
+    id = get_id_of_coin(item, "USD")
+    print(item)
     while t_e < current_time - 86400:
         my_json = await get_json(id, t_s, t_e)
         new_row_time = (list(my_json["data"]["points"].items()))[-1][0]
         new_row = my_json["data"]["points"][new_row_time]
-        hour_date = DateData(item.coin_parse,
+        hour_date = DateData(item,
                              time_data(time.ctime(int(new_row_time)), time_need=True),
                              new_row_time,
                              new_row["v"][0])
@@ -43,7 +43,6 @@ async def main():
     crypt_list = my_dbase.get_all_coin_names()
     for item in crypt_list:
         await find_new(item)
-        break
 
 
 if __name__ == "__main__":

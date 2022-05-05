@@ -6,7 +6,6 @@ from sqlalchemy.orm import sessionmaker
 from my_schemas import base, Date, News
 from config import *
 
-
 # psql -h localhost -p 5432 -U postgres -d Diplom
 
 DB_STR = f"postgresql+psycopg2://{user}:{password}@{host}/{db_name}"
@@ -58,15 +57,17 @@ def insert_news_list(news_list):
 
 
 def delete_coins(border):
-    return session.query(Date).\
-        filter(Date.coin_time_in_sec > 1648575540).\
+    return session.query(Date). \
+        filter(Date.coin_time_in_sec > 1651664340). \
         all()
 
+
 def delete_coins1(border):
-    session.query(Date).\
-        filter(Date.coin_time_in_sec > 1648575540).\
+    session.query(Date). \
+        filter(Date.coin_time_in_sec > 1651664340). \
         delete()
     session.commit()
+
 
 def my_len_news():
     """Узнать число элементов"""
@@ -133,11 +134,20 @@ def get_page_news_hist_by_time(params):
                .all()[params.page * params.n_rows - params.n_rows:params.page * params.n_rows]
 
 
+# def get_all_coin_names():
+#     return session.query(Date) \
+#         .order_by(Date.coin_time.desc()) \
+#         .limit(20) \
+#         .all()
+
 def get_all_coin_names():
-    return session.query(Date) \
-        .order_by(Date.coin_time.desc()) \
-        .limit(20) \
+    row_list = session.query(Date) \
+        .distinct(Date.coin_parse) \
         .all()
+    name_list = []
+    for item in row_list:
+        name_list.append(item.coin_parse)
+    return name_list
 
 
 def get_time_of_last_update_of_coin(coin_name):
@@ -146,7 +156,7 @@ def get_time_of_last_update_of_coin(coin_name):
         .filter(Date.coin_parse == coin_name) \
         .order_by(Date.coin_time.desc()) \
         .first() \
-        .coin_time
+        .coin_time_in_sec
 
 
 def get_time_of_last_news():
@@ -154,6 +164,3 @@ def get_time_of_last_news():
     return session.query(News) \
         .order_by(News.news_time.desc()) \
         .first()
-
-mmy_list = delete_coins("fv")
-print(mmy_list)
