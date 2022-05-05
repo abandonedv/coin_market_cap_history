@@ -8,7 +8,6 @@ from config import *
 
 
 # psql -h localhost -p 5432 -U postgres -d Diplom
-# DB_STR = f"sqlite:///new_file"
 
 DB_STR = f"postgresql+psycopg2://{user}:{password}@{host}/{db_name}"
 
@@ -26,17 +25,19 @@ def insert_coin_list(datas):
     for date in datas:
         c = Date(coin_parse=date.coin_parse,
                  coin_time=date.coin_time,
+                 coin_time_in_sec=date.coin_time_in_sec,
                  coin_value=date.coin_value,
                  update_time=update_time)
         session.add(c)
     session.commit()
 
 
-def insert_one_coin(date):
+async def insert_one_coin(date):
     """Вставляем один элемент"""
     update_time = str(datetime.datetime.now())
     c = Date(coin_parse=date.coin_parse,
              coin_time=date.coin_time,
+             coin_time_in_sec=date.coin_time_in_sec,
              coin_value=date.coin_value,
              update_time=update_time)
     session.add(c)
@@ -55,6 +56,17 @@ def insert_news_list(news_list):
         session.add(c)
     session.commit()
 
+
+def delete_coins(border):
+    return session.query(Date).\
+        filter(Date.coin_time_in_sec > 1648575540).\
+        all()
+
+def delete_coins1(border):
+    session.query(Date).\
+        filter(Date.coin_time_in_sec > 1648575540).\
+        delete()
+    session.commit()
 
 def my_len_news():
     """Узнать число элементов"""
@@ -142,3 +154,6 @@ def get_time_of_last_news():
     return session.query(News) \
         .order_by(News.news_time.desc()) \
         .first()
+
+mmy_list = delete_coins("fv")
+print(mmy_list)

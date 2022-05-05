@@ -3,22 +3,12 @@ import json
 import os
 import time
 from time_data import time_data
-
+from my_classes import DateData
 import write_into_coin_csv
 import my_dbase
 
 PATH_OF_PER_DAY = "saved_json_per_day"
-PATH_OF_PER_HOUR = "saved_json_per_hour"
-
-
-class Date_data:
-    """Класc для удобного представления необходимых мне данных"""
-
-    def __init__(self, name, coin_time, coin_time_in_sec, coin_value):
-        self.coin_parse = name
-        self.coin_time = coin_time
-        self.coin_time_in_sec = coin_time_in_sec
-        self.coin_value = coin_value
+PATH_OF_PER_HOUR = "C:\\Users\\Vadim\\Documents\\GitHub\\saved_json_per_hour"
 
 
 def get_json_from_file(file):
@@ -52,10 +42,10 @@ def get_all_data_per_hour(my_json, name_of_coin):
         if last_time + 3600 <= my_t:
             last_time = my_t
             # pprint.pprint(day_data)
-            history_of_coin.append(Date_data(name_of_coin,
-                                             time_data(time.ctime(my_t), time_need=True),
-                                             my_t,
-                                             list_of_points[my_time]["v"][0]))
+            history_of_coin.append(DateData(name_of_coin,
+                                            time_data(time.ctime(my_t), time_need=True),
+                                            my_t,
+                                            list_of_points[my_time]["v"][0]))
     return history_of_coin
 
 
