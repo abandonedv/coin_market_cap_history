@@ -94,9 +94,9 @@ def get_jsons_per_hour(ids_and_names):
                 "id": id,
                 "range": my_range
             }
-            js = requests.get(URL_HIST_PER_HOUR, params=parameters).json()
+            my_json = requests.get(URL_HIST_PER_HOUR, params=parameters).json()
             # pprint.pprint(js)
-            save_json_per_hour(js, ids_and_names[id], t_s)
+            save_json_per_hour(my_json, ids_and_names[id], t_s)
             t_s = t_e + 1
             t_e = t_s + 86399
 
@@ -118,7 +118,7 @@ def main():
     """Главная функция вызывающая все остальные"""
     # coins = get_all_links(get_html(URL))
     # ids_and_names = fill_list_of_ids_of_coins(coins)
-    get_jsons_per_day(IDS)
+    get_jsons_per_hour(IDS)
 
 
 if __name__ == "__main__":

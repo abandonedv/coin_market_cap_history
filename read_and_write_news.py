@@ -9,6 +9,7 @@ from time_data import time_data
 
 PATH_OF_NEWS = "saved_json_tass"
 
+
 class News_data:
     def __init__(self, news):
         self.news_parse = news[0]["slug"]
@@ -49,16 +50,29 @@ def get_all_news(my_json):
     return history_of_news
 
 
-def main():
-    """Главная функция вызывающая все остальные"""
+def main_insert():
     files = os.listdir(PATH_OF_NEWS)
-    write_into_news_csv.create()
+    print(
+        "1 - csv\n"
+        "2 - db\n"
+        "3 - 1 & 2\n"
+    )
+    type_of_use = int(input("Your type: "))
+    if type_of_use == 1 or type_of_use == 3:
+        write_into_news_csv.create()
     for file in files:
         my_json = get_js_from_file(file)
         list_of_news = get_all_news(my_json)
-        # write_into_news_csv.insert(list_of_news)
-        my_dbase.insert_news_list(list_of_news)
+        if type_of_use == 1 or type_of_use == 3:
+            write_into_news_csv.insert(list_of_news)
+        if type_of_use == 2 or type_of_use == 3:
+            my_dbase.insert_news_list(list_of_news)
         print(f"Файл {file} обработан!")
+
+
+def main():
+    """Главная функция вызывающая все остальные"""
+    main_insert()
 
 
 if __name__ == "__main__":

@@ -59,16 +59,29 @@ def get_all_data_per_hour(my_json, name_of_coin):
     return history_of_coin
 
 
-def main():
-    """Главная функция вызывающая все остальные"""
+def main_insert():
     files = os.listdir(PATH_OF_PER_HOUR)
-    write_into_coin_csv.create()
+    print(
+        "1 - csv\n"
+        "2 - db\n"
+        "3 - 1 & 2\n"
+    )
+    type_of_use = int(input("Your type: "))
+    if type_of_use == 1 or type_of_use == 3:
+        write_into_coin_csv.create()
     for file in files:
         my_json, name_of_coin = get_json_from_file(file)
         list_of_dates = get_all_data_per_hour(my_json, name_of_coin)
-        # write_into_coin_csv.insert(list_of_dates)
-        my_dbase.insert_coin_list(list_of_dates)
+        if type_of_use == 1 or type_of_use == 3:
+            write_into_coin_csv.insert(list_of_dates)
+        if type_of_use == 2 or type_of_use == 3:
+            my_dbase.insert_coin_list(list_of_dates)
         print(f"Файл {file} обработан!")
+
+
+def main():
+    """Главная функция вызывающая все остальные"""
+    main_insert()
 
 
 if __name__ == "__main__":
