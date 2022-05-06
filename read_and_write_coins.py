@@ -6,6 +6,7 @@ from time_data import time_data
 from my_classes import DateData
 import write_into_coin_csv
 import my_dbase
+from time_const import *
 
 PATH_OF_PER_DAY = "saved_json_per_day"
 PATH_OF_PER_HOUR = "C:\\Users\\Vadim\\Documents\\GitHub\\saved_json_per_hour"
@@ -39,7 +40,7 @@ def get_all_data_per_hour(my_json, name_of_coin):
     last_time = 0
     for my_time in list_of_points:
         my_t = int(my_time)
-        if last_time + 3600 <= my_t:
+        if last_time + HOUR <= my_t:
             last_time = my_t
             # pprint.pprint(day_data)
             history_of_coin.append(DateData(name_of_coin,

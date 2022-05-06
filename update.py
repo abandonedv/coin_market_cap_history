@@ -6,8 +6,9 @@ import requests
 import asyncio
 from time_data import time_data
 from coin_market_cap_parser import URL_HIST_PER_HOUR, IDS
-from coin_market_cap_API import get_id_of_coin
+from coin_market_cap_api import get_id_of_coin
 from my_classes import DateData
+from time_const import *
 
 
 async def get_json(id, t_s, t_e):
@@ -22,10 +23,10 @@ async def get_json(id, t_s, t_e):
 async def find_new(item):
     current_time = math.floor(time.time())
     t_s = my_dbase.get_time_of_last_update_of_coin(item)
-    t_e = t_s + 3600
+    t_e = t_s + HOUR
     id = get_id_of_coin(item, "USD")
     print(item)
-    while t_e < current_time - 86400:
+    while t_e < current_time - DAY:
         my_json = await get_json(id, t_s, t_e)
         new_row_time = (list(my_json["data"]["points"].items()))[-1][0]
         new_row = my_json["data"]["points"][new_row_time]
@@ -36,7 +37,7 @@ async def find_new(item):
         print(hour_date)
         await my_dbase.insert_one_coin(hour_date)
         t_s = t_e
-        t_e = t_e + 3600
+        t_e = t_e + HOUR
 
 
 async def main():
