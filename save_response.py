@@ -5,7 +5,6 @@ from time import ctime
 from time_data import time_data
 
 
-
 def save_html(my_html, url):
     """Сохраняем текст страницы в html файл"""
     cryp_name = url.split("/")
